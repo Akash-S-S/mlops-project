@@ -1,7 +1,19 @@
-#See full documentation in https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker
-# It will expect a file at /app/main.py and will expect it to contain a variable app with your FastAPI application.
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
-COPY /app/requirements.txt /app/
-RUN pip install -r /app/requirements.txt
-COPY ./model /model/
-COPY ./app /app
+# Base image
+FROM python:3.10-slim
+
+# Set work directory
+WORKDIR /app
+
+# Copy all files needed
+COPY app/ app/
+COPY model/ model/
+COPY app/requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port
+EXPOSE 10000
+
+# Run the app using uvicorn (FastAPI) or adjust if using Flask
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "10000"]
