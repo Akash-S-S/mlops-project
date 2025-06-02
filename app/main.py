@@ -1,5 +1,6 @@
 # Import Needed Libraries
 import joblib
+import os
 import uvicorn
 import numpy as np
 import pandas as pd
@@ -13,7 +14,7 @@ app = FastAPI(title='Car Price Prediction', version='1.0',
               description='Linear Regression model is used for prediction')
 
 # Initialize model artifacte files. This will be loaded at the start of FastAPI model server.
-model = joblib.load("LinearRegressionModel.joblib")
+model = joblib.load(os.path.join("model", "LinearRegressionModel.joblib"))
 
 # This struture will be used for Json validation.
 # With just that Python type declaration, FastAPI will perform below operations on the request data
